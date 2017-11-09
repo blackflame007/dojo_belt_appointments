@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>My Appointments</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  </head>
+  <body>
+      <div class="container">
+        <h2>Hello, {{user.name}}!</h2>
+        <a href="/logout">Logout</a>
+
+        <h5>Here are your appointments for today, {{date}}</h5>
+        <table class="table-hover">
+            <tr>
+                <th>Tasks</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            {% for ap in appointment %}
+            <tr>
+                <td>{{ap.task}}</td>
+                <td> {{ap.time}} </td>
+                <td> {{ap.status}} </td>
+                <td> <a href="/appointments/{{ap.id}}">Edit</a> <a href="/delete/{{ap.id}}">Delete</a> </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <h5>Your Other appointments:</h5>
+        <table class="table-hover">
+                <tr>
+                    <th>Tasks</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                </tr>
+                {% for ap in later_appointment %}
+                <tr>
+                    <td>{{ap.task}}</td>
+                    <td>{{ap.date}}</td>
+                    <td> {{ap.time}} </td>
+                    <td> {{ap.status}} </td>
+                    <td> <a href="/appointments/{{ap.id}}">Edit</a> <a href="/delete/{{ap.id}}">Delete</a> </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br>
+            <br>
+            <br>
+        <h3>Add Appointment</h3>
+        {% if messages %}
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+            <form action="/new_appointment" method="post">
+            {% csrf_token %}
+            <p>Date: <input type="date" name="date"> </p>
+            <p>Time: <input type="time" name="time" > </p>
+            <p>Tasks: <input type="text" name="task" > </p>
+            <input type="submit" class="btn-info" value="Add" >
+            </form>
+      </div>    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  </body>
+</html>
